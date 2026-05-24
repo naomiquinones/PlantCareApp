@@ -25,8 +25,8 @@ target_include_directories(plant_lib PUBLIC include)
 target_link_libraries(plant_lib SQLite::SQLite3)
 
 # Create the main executable
-add_executable(plant_care src/main.cpp)
-target_link_libraries(plant_care plant_lib)
+add_executable(plantcareapp src/main.cpp)
+target_link_libraries(plantcareapp plant_lib)
 
 # Create the test executable
 add_executable(run_tests tests/test_main.cpp)
