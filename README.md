@@ -9,18 +9,18 @@ Allows a plant owner to take better care of their plants
 - View plants currently needing watering or fertilization.
 - Receive warning messages for overdue plant care when the app starts.
 
-## Building
+## How to Build
 ```
 cmake -S . -B build
 cmake --build build
 ```
 
-## Running
+## How to Run
 ```
 ./build/plantcareapp
 ```
 
-## Running Tests
+## How to Test
 ```
 ctest --test-dir build --verbose
 ```
