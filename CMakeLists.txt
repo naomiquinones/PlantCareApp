@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.19)
 project(PlantCareApp)
 
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Enable testing
 enable_testing()
