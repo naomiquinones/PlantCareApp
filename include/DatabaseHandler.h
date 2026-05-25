@@ -33,6 +33,7 @@ public:
 
     bool loadPlantTypes(PlantCollection& collection);
     PlantType* getPlantType(const std::string& latinName);
+    bool savePlantType(const PlantType& plantType);
 
     bool loadPlants(PlantCollection& collection);
     bool savePlant(const Plant& plant);
