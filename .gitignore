@@ -73,5 +73,9 @@ Testing/
 .idea/
 cmake-build-*/
 
+# Project data
+data/*.db
+
+
 .DS_Store
 Thumbs.db
