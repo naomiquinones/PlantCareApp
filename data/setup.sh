@@ -11,8 +11,11 @@ echo "Setting up PlantCareApp database..."
 echo "Creating schema..."
 sqlite3 "$SCRIPT_DIR/plants.db" < "$SCRIPT_DIR/schema.sql"
 
-# Import plant types from JSON
+# Import plant types and factors from JSON
 echo "Importing plant types..."
 python3 "$SCRIPT_DIR/import_plant_types.py"
+
+echo "Importing factors..."
+python3 "$SCRIPT_DIR/import_factors.py"
 
 echo "Setup complete. Database created at $SCRIPT_DIR/plants.db"
