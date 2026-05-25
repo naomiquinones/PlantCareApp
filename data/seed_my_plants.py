@@ -7,6 +7,25 @@ import sqlite3
 conn = sqlite3.connect('data/plants.db')
 cursor = conn.cursor()
 
+# Add seed-specific fallback plant types when they are missing from imported data.
+# This keeps plant_type_id populated for common personal plants that may not exist
+# in the reference dataset.
+custom_plant_types = [
+    'Kalanchoe blossfeldiana',
+    'Senecio rowleyanus',
+    'Hypoestes phyllostachya',
+    'Tradescantia fluminensis',
+    'Callisia repens',
+    'Tillandsia ionantha',
+    'Various',
+]
+
+for latin_name in custom_plant_types:
+    cursor.execute(
+        'INSERT OR IGNORE INTO plant_types (latin_name) VALUES (?)',
+        (latin_name,)
+    )
+
 # Clear existing data first
 cursor.execute('DELETE FROM my_plants')
 
@@ -29,7 +48,7 @@ plants = [
     (15, 'Dracaena Tricolor', 'Dracaena marginata', '2026-05-20', '2026-05-20', '8in', 0, '', None, None),
     (16, 'Spider Plant', 'Chlorophytum comosum', '2026-05-20', '2026-05-20', '6in', 0, '', None, None),
     (17, 'Orchid', 'Phalaenopsis X', '2026-05-20', '2026-05-20', '4in', 0, '', None, None),
-    (18, 'Air Plants', 'Tillandsia', '2026-05-20', '2026-05-20', 'n/a', 0, 'Mounted', None, None),
+    (18, 'Air Plants', 'Tillandsia ionantha', '2026-05-20', '2026-05-20', 'n/a', 0, 'Mounted', None, None),
 ]
 
 for p in plants:
@@ -37,7 +56,7 @@ for p in plants:
 
     # Try to find plant_type_id by latin_name
     plant_type_id = None
-    if scientific_name and scientific_name.lower() != 'various' and scientific_name.lower() != 'n/a':
+    if scientific_name and scientific_name.lower() != 'n/a':
         cursor.execute('SELECT id FROM plant_types WHERE latin_name = ?', (scientific_name,))
         row = cursor.fetchone()
         if row:
