@@ -13,19 +13,19 @@ for plant in data:
     category = plant.get('category', '')
     origin = plant.get('origin', '')
     climate = plant.get('climate', '')
-    
+
     # Extract celsius from nested temp objects
     tempmin = plant.get('tempmin', {}).get('celsius', None)
     tempmax = plant.get('tempmax', {}).get('celsius', None)
-    
+
     ideal_light = plant.get('ideallight', '')
     tolerated_light = plant.get('toleratedlight', '')
     watering = plant.get('watering', '')
-    
+
     # common names as comma-separated string
     common = plant.get('common', [])
     common_str = ', '.join(common) if isinstance(common, list) else common
-    
+
     diseases = plant.get('diseases', '')
     if isinstance(diseases, list):
         diseases = ', '.join(diseases)
@@ -41,7 +41,6 @@ for plant in data:
         toxic_to_people = 1 if toxic_field.get('people') else 0
         toxic_to_pets = 1 if toxic_field.get('pets') else 0
     elif isinstance(toxic_field, str):
-        # simple parsing heuristics
         tf = toxic_field.lower()
         toxic_to_people = 1 if 'people' in tf or 'human' in tf or 'toxic' in tf else 0
         toxic_to_pets = 1 if 'pet' in tf or 'dog' in tf or 'cat' in tf else 0
@@ -59,43 +58,10 @@ for plant in data:
           watering, watering_freq, fertilizer_freq,
           fertilizer_instructions, toxic_to_people, toxic_to_pets, diseases))
 
-    # Get the id of the plant_type we just inserted (handle INSERT OR IGNORE)
-    plant_type_id = cursor.lastrowid
-    if not plant_type_id:
-        cursor.execute('SELECT id FROM plant_types WHERE latin_name = ?', (latin,))
-        row = cursor.fetchone()
-        plant_type_id = row[0] if row else None
-
-    # Insert pests into plant_pests
-    insects = plant.get('insects', [])
-    if isinstance(insects, list):
-        for insect in insects:
-            if insect and insect != 'N/A':
-                cursor.execute('''
-                    INSERT INTO plant_pests (plant_type_id, pest)
-                    VALUES (?, ?)
-                ''', (plant_type_id, insect))
-
-    # Insert uses into plant_uses
-    uses = plant.get('use', [])
-    if isinstance(uses, list):
-        for use in uses:
-            if use:
-                cursor.execute('''
-                    INSERT INTO plant_uses (plant_type_id, use)
-                    VALUES (?, ?)
-                ''', (plant_type_id, use))
-
 conn.commit()
 
 # Verify
 cursor.execute('SELECT COUNT(*) FROM plant_types')
 print(f'plant_types: {cursor.fetchone()[0]} records')
-
-cursor.execute('SELECT COUNT(*) FROM plant_pests')
-print(f'plant_pests: {cursor.fetchone()[0]} records')
-
-cursor.execute('SELECT COUNT(*) FROM plant_uses')
-print(f'plant_uses: {cursor.fetchone()[0]} records')
 
 conn.close()

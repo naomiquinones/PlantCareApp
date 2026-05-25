@@ -1,7 +1,3 @@
--- PlantCareApp Database Schema
--- Run this first to initialize the database
-
--- Reference tables (populated by import scripts)
 CREATE TABLE IF NOT EXISTS plant_types (
     id INTEGER PRIMARY KEY,
     latin_name TEXT UNIQUE,
@@ -23,19 +19,6 @@ CREATE TABLE IF NOT EXISTS plant_types (
     diseases TEXT
 );
 
-CREATE TABLE IF NOT EXISTS plant_pests (
-    id INTEGER PRIMARY KEY,
-    plant_type_id INTEGER REFERENCES plant_types(id),
-    pest TEXT
-);
-
-CREATE TABLE IF NOT EXISTS plant_uses (
-    id INTEGER PRIMARY KEY,
-    plant_type_id INTEGER REFERENCES plant_types(id),
-    use TEXT
-);
-
--- Kaggle observation data
 CREATE TABLE IF NOT EXISTS factors (
     Plant_ID TEXT,
     Height_cm REAL,
@@ -56,7 +39,6 @@ CREATE TABLE IF NOT EXISTS factors (
     Health_Score REAL
 );
 
--- User data (personal collection)
 CREATE TABLE IF NOT EXISTS my_plants (
     id INTEGER PRIMARY KEY,
     common_name TEXT,
@@ -71,7 +53,6 @@ CREATE TABLE IF NOT EXISTS my_plants (
     fertilizer_frequency_days_override INTEGER
 );
 
--- Care history
 CREATE TABLE IF NOT EXISTS care_events (
     id INTEGER PRIMARY KEY,
     plant_id INTEGER REFERENCES my_plants(id),

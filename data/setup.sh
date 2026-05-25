@@ -18,4 +18,7 @@ python3 "$SCRIPT_DIR/import_plant_types.py"
 echo "Importing factors..."
 python3 "$SCRIPT_DIR/import_factors.py"
 
+echo "Setting frequency data..."
+python3 "$SCRIPT_DIR/update_frequencies.py"
+
 echo "Setup complete. Database created at $SCRIPT_DIR/plants.db"
