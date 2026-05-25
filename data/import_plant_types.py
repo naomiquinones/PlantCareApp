@@ -30,19 +30,41 @@ for plant in data:
     if isinstance(diseases, list):
         diseases = ', '.join(diseases)
 
+    # optional numeric frequencies / toxicity / fertilizer instructions
+    watering_freq = plant.get('watering_frequency_days', None)
+    fertilizer_freq = plant.get('fertilizer_frequency_days', None)
+    fertilizer_instructions = plant.get('fertilizer', '')
+    toxic_field = plant.get('toxic') or plant.get('toxicity') or {}
+    toxic_to_people = 0
+    toxic_to_pets = 0
+    if isinstance(toxic_field, dict):
+        toxic_to_people = 1 if toxic_field.get('people') else 0
+        toxic_to_pets = 1 if toxic_field.get('pets') else 0
+    elif isinstance(toxic_field, str):
+        # simple parsing heuristics
+        tf = toxic_field.lower()
+        toxic_to_people = 1 if 'people' in tf or 'human' in tf or 'toxic' in tf else 0
+        toxic_to_pets = 1 if 'pet' in tf or 'dog' in tf or 'cat' in tf else 0
+
     # Insert into plant_types
     cursor.execute('''
         INSERT OR IGNORE INTO plant_types 
-        (latin_name, family, category, origin, climate, 
+        (latin_name, common_names, family, category, origin, climate, 
          temp_min_c, temp_max_c, ideal_light, tolerated_light, 
-         watering, diseases)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (latin, family, category, origin, climate,
+         watering, watering_frequency_days, fertilizer_frequency_days,
+         fertilizer_instructions, toxic_to_people, toxic_to_pets, diseases)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (latin, common_str, family, category, origin, climate,
           tempmin, tempmax, ideal_light, tolerated_light,
-          watering, diseases))
+          watering, watering_freq, fertilizer_freq,
+          fertilizer_instructions, toxic_to_people, toxic_to_pets, diseases))
 
-    # Get the id of the plant_type we just inserted
+    # Get the id of the plant_type we just inserted (handle INSERT OR IGNORE)
     plant_type_id = cursor.lastrowid
+    if not plant_type_id:
+        cursor.execute('SELECT id FROM plant_types WHERE latin_name = ?', (latin,))
+        row = cursor.fetchone()
+        plant_type_id = row[0] if row else None
 
     # Insert pests into plant_pests
     insects = plant.get('insects', [])
