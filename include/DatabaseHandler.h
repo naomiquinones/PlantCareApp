@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "sqlite3.h"
+#include "SQLiteCpp/SQLiteCpp.h"
 #include "Plant.h"
 #include "PlantType.h"
 #include "CareEvent.h"
@@ -12,11 +12,11 @@
 /**
  * DatabaseHandler manages the SQLite database connection.
  * Responsible for all reading and writing to plants.db.
- * Uses a raw sqlite3* pointer managed manually.
+ * Uses a SQLite::Database object.
  */
 class DatabaseHandler {
 private:
-    sqlite3* db;
+    SQLite::Database* db;
     std::string dbPath;
 
     bool execute(const std::string& sql);
