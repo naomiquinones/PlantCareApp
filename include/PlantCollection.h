@@ -34,6 +34,7 @@ public:
 
     std::vector<Plant*> getPlantsNeedingWater() const;
     std::vector<Plant*> getPlantsNeedingFertilizer() const;
+    std::vector<Plant*> getOverduePlants(int daysThreshold) const;
 
     void displayAll() const;
     void displayPlantsNeedingCare() const;
