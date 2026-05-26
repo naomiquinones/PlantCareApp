@@ -16,7 +16,16 @@ PlantType* PlantCollection::findPlantType(int id) const { return nullptr; }
 vector<Plant*> PlantCollection::getPlantsNeedingWater() const { return {}; }
 vector<Plant*> PlantCollection::getPlantsNeedingFertilizer() const { return {}; }
 vector<Plant*> PlantCollection::getOverduePlants(int daysThreshold) const { return {}; }
-void PlantCollection::displayAll() const { cout << "[PlantCollection::displayAll] not yet implemented\n"; }
+void PlantCollection::displayAll() const {
+    if (plants.empty()) {
+        cout << "[PlantCollection::displayAll] No plants\n";
+        return;
+    }
+    cout << "[PlantCollection::displayAll] --------------\n";
+    for (Plant* p : plants) {
+        if (p) p->display();
+    }
+}
 void PlantCollection::displayPlantsNeedingCare() const { cout << "[PlantCollection::displayPlantsNeedingCare] not yet implemented\n"; }
 int PlantCollection::getCount() const { return 0; }
 bool PlantCollection::isEmpty() const { return true; }
