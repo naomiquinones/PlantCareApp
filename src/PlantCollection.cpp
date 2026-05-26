@@ -32,6 +32,8 @@ void PlantCollection::displayPlantsNeedingCare() const { cout << "[PlantCollecti
 int PlantCollection::getCount() const {
     return plants.size();
 }
-bool PlantCollection::isEmpty() const { return true; }
+bool PlantCollection::isEmpty() const {
+    return plants.empty();
+}
 int PlantCollection::getEffectiveWateringDays(const Plant& plant) const { return 0; }
 int PlantCollection::getEffectiveFertilizerDays(const Plant& plant) const { return 0; }
