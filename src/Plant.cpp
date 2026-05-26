@@ -64,25 +64,25 @@ int Plant::daysSinceFertilized() const {
 }
 
 void Plant::display() const {
-    cout << "------------------------\n";
+    cout << "--------------------------\n";
 
     cout << left;
 
-    cout << setw(16) << "Name:" << commonName << "\n";
+    cout << setw(18) << "Name:" << commonName << "\n";
 
-    cout << setw(16) << "Species:" << scientificName << "\n";
+    cout << setw(18) << "Species:" << scientificName << "\n";
 
-    cout << setw(16) << "Last watered:" << (lastWatered.empty() ? "Never" : lastWatered) << "\n";
+    cout << setw(18) << "Last watered:" << (lastWatered.empty() ? "Never" : lastWatered) << "\n";
 
-    cout << setw(16) << "Last fertilized:" << (lastFertilized.empty() ? "Never" : lastFertilized) << "\n";
+    cout << setw(18) << "Last fertilized:" << (lastFertilized.empty() ? "Never" : lastFertilized) << "\n";
 
-    cout << setw(16) << "Pot size:" << (potSize.empty() ? "Unknown" : potSize) << "\n";
+    cout << setw(18) << "Pot size:" << (potSize.empty() ? "Unknown" : potSize) << "\n";
 
-    cout << setw(16) << "Rootbound:" << (rootbound ? "Yes" : "No") << "\n";
+    cout << setw(18) << "Rootbound:" << (rootbound ? "Yes" : "No") << "\n";
 
     if (!notes.empty()) {
-        cout << setw(16) << "Notes:" << notes << "\n";
+        cout << setw(18) << "Notes:" << notes << "\n";
     }
 
-    cout << "------------------------\n";
+    cout << "--------------------------\n";
 }

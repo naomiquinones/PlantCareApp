@@ -23,7 +23,7 @@ void PlantCollection::displayAll() const {
         cout << "[PlantCollection::displayAll] No plants\n";
         return;
     }
-    cout << "[PlantCollection::displayAll] --------------\n";
+    cout << "\n--------------------------\n------  All Plants  ------\n";
     for (Plant* p : plants) {
         if (p) p->display();
     }
