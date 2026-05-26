@@ -1,5 +1,6 @@
 #include "Plant.h"
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -63,6 +64,23 @@ int Plant::daysSinceFertilized() const {
 }
 
 void Plant::display() const {
-    // TODO: Implement
-    cout << "[Plant::display] not yet implemented\n";
+    cout << "------------------------\n";
+
+    cout << left << setw(16) << "Name:" << commonName << "\n";
+
+    cout << left << setw(16) << "Species:" << scientificName << "\n";
+
+    cout << left << setw(16) << "Last watered:" << (lastWatered.empty() ? "Never" : lastWatered) << "\n";
+
+    cout << left << setw(16) << "Last fertilized:" << (lastFertilized.empty() ? "Never" : lastFertilized) << "\n";
+
+    cout << left << setw(16) << "Pot size:" << (potSize.empty() ? "Unknown" : potSize) << "\n";
+
+    cout << left << setw(16) << "Rootbound:" << (rootbound ? "Yes" : "No") << "\n";
+
+    if (!notes.empty()) {
+        cout << left << setw(16) << "Notes:" << notes << "\n";
+    }
+
+    cout << "------------------------\n";
 }
