@@ -45,6 +45,8 @@ void test_careevent_initialization() {
 }
 
 void test_add_plants_normal() {
+    cout << "test_add_plants_normal\n";
+
     PlantCollection collection;
 
     Plant* p1 = new Plant();
@@ -60,12 +62,16 @@ void test_add_plants_normal() {
 }
 
 void test_empty_collection() {
+    cout << "test_empty_collection\n";
+
     PlantCollection collection;
 
     assert(collection.getCount() == 0);
 }
 
 void test_single_plant() {
+    cout << "test_single_plant\n";
+
     PlantCollection collection;
 
     Plant* p1 = new Plant();
@@ -84,6 +90,10 @@ int main() {
     test_plant_needs_fertilizer();
     test_planttype_initialization();
     test_careevent_initialization();
+
+    test_add_plants_normal();
+    test_empty_collection();
+    test_single_plant();
 
     cout << "\nAll tests completed.\n";
     return 0;
