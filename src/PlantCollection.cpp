@@ -29,7 +29,9 @@ void PlantCollection::displayAll() const {
     }
 }
 void PlantCollection::displayPlantsNeedingCare() const { cout << "[PlantCollection::displayPlantsNeedingCare] not yet implemented\n"; }
-int PlantCollection::getCount() const { return 0; }
+int PlantCollection::getCount() const {
+    return plants.size();
+}
 bool PlantCollection::isEmpty() const { return true; }
 int PlantCollection::getEffectiveWateringDays(const Plant& plant) const { return 0; }
 int PlantCollection::getEffectiveFertilizerDays(const Plant& plant) const { return 0; }
