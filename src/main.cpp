@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <limits>
 #include "PlantCollection.h"
 #include "DatabaseHandler.h"
 
@@ -40,7 +41,12 @@ int main() {
 
     while (running) {
         displayMenu();
-        cin >> choice;
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number.\n";
+            continue;
+        }
 
         if (choice == 1) {
             // TODO: Display plants needing water/fertilizer
