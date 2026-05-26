@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <limits>
 #include "PlantCollection.h"
 #include "DatabaseHandler.h"
 
@@ -17,6 +18,21 @@ int main() {
 
     PlantCollection collection;
 
+    Plant* plant1 = new Plant();
+    plant1->setCommonName("Snake Plant");
+    plant1->setScientificName("Dracaena trifasciata");
+    plant1->setLastWatered("2026-05-20");
+    plant1->setPotSize("8 inch");
+
+    Plant* plant2 = new Plant();
+    plant2->setCommonName("Pothos");
+    plant2->setScientificName("Epipremnum aureum");
+    plant2->setLastWatered("2026-05-23");
+    plant2->setPotSize("6 inch");
+
+    collection.addPlant(plant1);
+    collection.addPlant(plant2);
+
     // TODO: Check for plants needing care
     // TODO: Display startup warnings for overdue plants
 
@@ -25,12 +41,17 @@ int main() {
 
     while (running) {
         displayMenu();
-        cin >> choice;
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number.\n";
+            continue;
+        }
 
         if (choice == 1) {
             // TODO: Display plants needing water/fertilizer
         } else if (choice == 2) {
-            // TODO: Display all plants
+            collection.displayAll();
         } else if (choice == 3) {
             // TODO: Get plant details from user
             // TODO: Let user select or create a plant type

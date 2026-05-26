@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include "Plant.h"
+#include "PlantCollection.h"
 #include "PlantType.h"
 #include "CareEvent.h"
 
@@ -43,6 +44,44 @@ void test_careevent_initialization() {
     cout << "test_careevent_initialization: TODO\n";
 }
 
+void test_add_plants_normal() {
+    cout << "test_add_plants_normal\n";
+
+    PlantCollection collection;
+
+    Plant* p1 = new Plant();
+    p1->setCommonName("Snake Plant");
+
+    Plant* p2 = new Plant();
+    p2->setCommonName("Pothos");
+
+    collection.addPlant(p1);
+    collection.addPlant(p2);
+
+    assert(collection.getCount() == 2);
+}
+
+void test_empty_collection() {
+    cout << "test_empty_collection\n";
+
+    PlantCollection collection;
+
+    assert(collection.getCount() == 0);
+}
+
+void test_single_plant() {
+    cout << "test_single_plant\n";
+
+    PlantCollection collection;
+
+    Plant* p1 = new Plant();
+    p1->setCommonName("Monstera");
+
+    collection.addPlant(p1);
+
+    assert(collection.getCount() == 1);
+}
+
 int main() {
     cout << "Running tests...\n\n";
 
@@ -51,6 +90,10 @@ int main() {
     test_plant_needs_fertilizer();
     test_planttype_initialization();
     test_careevent_initialization();
+
+    test_add_plants_normal();
+    test_empty_collection();
+    test_single_plant();
 
     cout << "\nAll tests completed.\n";
     return 0;

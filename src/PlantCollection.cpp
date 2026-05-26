@@ -7,7 +7,9 @@ PlantCollection::~PlantCollection() {
     for (Plant* p : plants) delete p;
     for (PlantType* pt : plantTypes) delete pt;
 }
-void PlantCollection::addPlant(Plant* plant) {}
+void PlantCollection::addPlant(Plant* plant) {
+    if (plant) plants.push_back(plant);
+}
 bool PlantCollection::removePlant(int id) { return false; }
 Plant* PlantCollection::findPlant(int id) const { return nullptr; }
 Plant* PlantCollection::findPlantByName(const string& name) const { return nullptr; }
@@ -16,9 +18,20 @@ PlantType* PlantCollection::findPlantType(int id) const { return nullptr; }
 vector<Plant*> PlantCollection::getPlantsNeedingWater() const { return {}; }
 vector<Plant*> PlantCollection::getPlantsNeedingFertilizer() const { return {}; }
 vector<Plant*> PlantCollection::getOverduePlants(int daysThreshold) const { return {}; }
-void PlantCollection::displayAll() const { cout << "[PlantCollection::displayAll] not yet implemented\n"; }
+void PlantCollection::displayAll() const {
+    if (plants.empty()) {
+        cout << "[PlantCollection::displayAll] No plants\n";
+        return;
+    }
+    cout << "\n--------------------------\n------  All Plants  ------\n";
+    for (Plant* p : plants) {
+        if (p) p->display();
+    }
+}
 void PlantCollection::displayPlantsNeedingCare() const { cout << "[PlantCollection::displayPlantsNeedingCare] not yet implemented\n"; }
-int PlantCollection::getCount() const { return 0; }
+int PlantCollection::getCount() const {
+    return plants.size();
+}
 bool PlantCollection::isEmpty() const { return true; }
 int PlantCollection::getEffectiveWateringDays(const Plant& plant) const { return 0; }
 int PlantCollection::getEffectiveFertilizerDays(const Plant& plant) const { return 0; }
