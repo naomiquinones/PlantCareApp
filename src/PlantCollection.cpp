@@ -7,7 +7,9 @@ PlantCollection::~PlantCollection() {
     for (Plant* p : plants) delete p;
     for (PlantType* pt : plantTypes) delete pt;
 }
-void PlantCollection::addPlant(Plant* plant) {}
+void PlantCollection::addPlant(Plant* plant) {
+    if (plant) plants.push_back(plant);
+}
 bool PlantCollection::removePlant(int id) { return false; }
 Plant* PlantCollection::findPlant(int id) const { return nullptr; }
 Plant* PlantCollection::findPlantByName(const string& name) const { return nullptr; }
