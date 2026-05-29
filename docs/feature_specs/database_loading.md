@@ -80,8 +80,6 @@ bool DatabaseHandler::loadPlants(
 
 ## Edge cases
 
-These were increased after discussion with AI:
-
 1. Database file does not exist.
 2. Database file exists but is unreadable or not a valid SQLite database.
 3. Required tables do not exist because `setup.sh` was not run or only partially completed.
@@ -97,16 +95,17 @@ These were increased after discussion with AI:
 
 ### 1. Normal operation
 
-Open a database with known rows in `plant_types`
-and `my_plants`.
+Open a database with known rows in `plant_types` and `my_plants`.
 
 Assert:
 
 - `open()` returns true
 - `loadPlantTypes()` returns true
 - `loadPlants()` returns true
-- collection contains expected counts
-- loaded plant names match expected values
+- `collection.getPlantTypeCount()` matches expected number of rows in `plant_types`
+- `collection.getCount()` matches expected number of rows in `my_plants`
+- At least one known plant name (e.g., "Snake Plant") exists in the loaded plants
+- loaded plant "Snake Plant" has correct scientific name "Dracaena trifasciata"
 
 ### 2. Edge case
 
@@ -129,8 +128,6 @@ Assert:
 - application still runs normally
 
 ## Design decisions
-
-Discussed the following with the AI:
 
 - Loading behavior: `loadPlantTypes()` and `loadPlants()` append to the existing `PlantCollection` rather than clearing it. The caller is responsible for avoiding duplicate loads.
 - Invalid or missing `plant_type_id` values will not stop loading. Plants with missing types will still be loaded and may display a warning.
