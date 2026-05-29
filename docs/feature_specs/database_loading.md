@@ -80,16 +80,15 @@ bool DatabaseHandler::loadPlants(
 
 ## Edge cases
 
-1. Database file does not exist.
-2. Database file exists but is unreadable or not a valid SQLite database.
-3. Required tables do not exist because `setup.sh` was not run or only partially completed.
-4. `plant_types` is empty.
-5. `my_plants` is empty (new user with no saved plants).
-6. `loadPlantTypes()` or `loadPlants()` is called before `open()`.
-7. `open()` or `close()` is called multiple times.
-8. A `plant_type_id` in `my_plants` does not match a row in `plant_types`.
-9. A database row contains `NULL` values where strings or numbers are expected.
-10. `loadPlantTypes()` or `loadPlants()` is called more than once, potentially creating duplicate in-memory objects.
+1. Database file is missing, unreadable, or not a valid SQLite database.
+2. Missing tables (plant_types, my_plants) because `setup.sh` was not run or only partially completed.
+3. `plant_types` is empty.
+4. `my_plants` is empty (new user with no saved plants).
+5. `loadPlantTypes()` or `loadPlants()` is called before `open()`.
+6. `open()` or `close()` is called multiple times.
+7. A `plant_type_id` in `my_plants` does not match a row in `plant_types`.
+8. A database row contains `NULL` values where strings or numbers are expected.
+9. `loadPlantTypes()` or `loadPlants()` is called more than once, potentially creating duplicate in-memory objects.
 
 ## Three test cases
 
@@ -129,8 +128,7 @@ Assert:
 
 ## Design decisions
 
-- Loading behavior: `loadPlantTypes()` and `loadPlants()` append to the existing `PlantCollection` rather than clearing it. The caller is responsible for avoiding duplicate loads.
+- Loading behavior: the main function creates a fresh PlantCollection at startup, replacing existing in-memory data rather than appending, to avoid duplicate objects on repeated loads.
 - Invalid or missing `plant_type_id` values will not stop loading. Plants with missing types will still be loaded and may display a warning.
-- `NULL` database values will load as sensible defaults (empty strings, `0`, or `false`) instead of crashing.
-- Invalid date strings will be loaded as-is. Date validation will be handled later when date calculations are implemented.
-- If one database row is malformed, the loader should continue loading other valid rows whenever possible.
+- NULL or missing database values will not crash the loader; default-initialized values will be used where necessary.
+- The loader should prioritize successfully loading valid rows even if some rows cannot be fully processed.
