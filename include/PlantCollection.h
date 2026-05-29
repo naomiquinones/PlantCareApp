@@ -31,6 +31,7 @@ public:
 
     void addPlantType(PlantType* plantType);
     PlantType* findPlantType(int id) const;
+    int getPlantTypeCount() const;
 
     std::vector<Plant*> getPlantsNeedingWater() const;
     std::vector<Plant*> getPlantsNeedingFertilizer() const;
