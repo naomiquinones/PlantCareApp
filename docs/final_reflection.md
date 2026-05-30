@@ -47,10 +47,16 @@ After working on Feature 2, the state of the project is:
 
 I plan to continue working on this project. I also plan to research how to connect wires to an arduino without soldering so I can add the soil moisture sensor I originally thought of.
 
-#2: Design Decisions I Would Change
+### 2: Design Decisions I Would Change
 
 I'd like to investigate more options for manipulating the initial datasets in C++ so the whole project uses C++.
 
-If I redid this, or if I continue working on this, I might revisit the DatabaseHandler. The file is over 200 lines long, and while that might be tiny compared to professional projects, I'm already having trouble keeping track of what it does. Perhaps splitting its functions will be better, for example splitting the connection work into a submodule or something like that.
+If I redid this, or if I continue working on this, I might revisit the DatabaseHandler. The file is over 200 lines long, and while that might be tiny compared to professional projects, I'm already having trouble keeping track of what it does. Perhaps splitting its functions will be better, for example splitting the connection work into a helper class or something like that.
 
 With the Plant, I'd like to redo how to get the watering frequency. Right now, I'll need to get the plant_type_id, then go to the collection and use the findPlantType method, then get the plantType's watering frequency. Perhaps using a pointer to the PlantType from within the Plant would be more straightforward, but I'm not sure about this.
+
+### 3: What I Learned
+
+**Technical**: I learned to use SQLiteCpp, the library for connecting to the SQLite database. For example, in order to iterate over various rows, it's necessary to use a while loop with `query.executeStep()`, which returns true as long as there are more rows, allowing the code to set each of the Plant object's fields from the data pulled out of the table in the database.
+**Design**: Separation of concerns: Originally, I was going to have DatabaseHandler methods report problems, but in the end, decided to have them return false and have the main.cpp print the error message. When testing, we need to be careful when we use try-catch blocks, as they will hide errors in our test
+**Process**: I appreciated having the CMake file. While I was researching more about where the CMake file came from, I came across a Physics department's tutorial on it, and their descriptions complemented what we learned in class. I also learned that for Apple Silicon Macs, the version needs to be higher. I also learned that it is necessary to run the `cmake --build build` command before running ctest.
