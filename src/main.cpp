@@ -10,28 +10,17 @@ void displayMenu();
 
 int main() {
     DatabaseHandler db("data/plants.db");
-
-    // TODO: Open database connection
-    // TODO: Initialize database if first run
-    // TODO: Load plant types into collection
-    // TODO: Load plants into collection
-
     PlantCollection collection;
-
-    Plant* plant1 = new Plant();
-    plant1->setCommonName("Snake Plant");
-    plant1->setScientificName("Dracaena trifasciata");
-    plant1->setLastWatered("2026-05-20");
-    plant1->setPotSize("8 inch");
-
-    Plant* plant2 = new Plant();
-    plant2->setCommonName("Pothos");
-    plant2->setScientificName("Epipremnum aureum");
-    plant2->setLastWatered("2026-05-23");
-    plant2->setPotSize("6 inch");
-
-    collection.addPlant(plant1);
-    collection.addPlant(plant2);
+    if (!db.open()) {
+        cout << "Unable to open database.\n";
+    } else {
+        if (!db.loadPlantTypes(collection)) {
+            cout << "Failed to load plant types.\n";
+        }
+        if (!db.loadPlants(collection)) {
+            cout << "Failed to load plants.\n";
+        }
+    }
 
     // TODO: Check for plants needing care
     // TODO: Display startup warnings for overdue plants
@@ -71,7 +60,7 @@ int main() {
         }
     }
 
-    // TODO: Close database connection
+    db.close();
     return 0;
 }
 

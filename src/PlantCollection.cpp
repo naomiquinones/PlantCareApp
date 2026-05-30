@@ -13,8 +13,22 @@ void PlantCollection::addPlant(Plant* plant) {
 bool PlantCollection::removePlant(int id) { return false; }
 Plant* PlantCollection::findPlant(int id) const { return nullptr; }
 Plant* PlantCollection::findPlantByName(const string& name) const { return nullptr; }
-void PlantCollection::addPlantType(PlantType* plantType) {}
-PlantType* PlantCollection::findPlantType(int id) const { return nullptr; }
+void PlantCollection::addPlantType(PlantType* plantType) {
+    if (plantType) plantTypes.push_back(plantType);
+}
+PlantType* PlantCollection::findPlantType(int id) const {
+    for (PlantType* plantType : plantTypes) {
+        if (plantType && plantType->getId() == id) {
+            return plantType;
+        }
+    }
+    return nullptr;
+}
+
+int PlantCollection::getPlantTypeCount() const {
+    return plantTypes.size();
+}
+
 vector<Plant*> PlantCollection::getPlantsNeedingWater() const { return {}; }
 vector<Plant*> PlantCollection::getPlantsNeedingFertilizer() const { return {}; }
 vector<Plant*> PlantCollection::getOverduePlants(int daysThreshold) const { return {}; }

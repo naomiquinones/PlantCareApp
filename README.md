@@ -11,22 +11,39 @@ Allows a plant owner to take better care of their plants
 - View plants currently needing watering or fertilization.
 - Receive warning messages for overdue plant care when the app starts.
 
+## Current Status
+
+**Implemented:**
+
+- Database loading: plant types and plants load from SQLite at startup
+- View all plants (menu option 2)
+
+**Stubbed (not yet implemented):**
+
+- Add a plant, update plant care, add custom plant type, view plants needing care, startup warnings
+
+## Database Setup (one-time)
+
+```bash
+cd data && bash setup.sh
+```
+
 ## How to Build
 
-```cmake
+```bash
 cmake -S . -B build
 cmake --build build
 ```
 
 ## How to Run
 
-```sh
+```bash
 ./build/plantcareapp
 ```
 
 ## How to Test
 
-```ctest
+```bash
 ctest --test-dir build --verbose
 ```
 
