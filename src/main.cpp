@@ -92,12 +92,16 @@ int main() {
                 }
             }
 
-            int plantTypeId;
             cout << "Enter plant type ID (0 if unknown): ";
-            if (!(cin >> plantTypeId)) {
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                plantTypeId = 0;
+            string plantTypeIdStr;
+            getline(cin, plantTypeIdStr);
+            int plantTypeId = 0;
+            if (!plantTypeIdStr.empty()) {
+                try {
+                    plantTypeId = stoi(plantTypeIdStr);
+                } catch (const exception& e) {
+                    plantTypeId = 0;
+                }
             }
             newPlant->setPlantTypeId(plantTypeId);
 
