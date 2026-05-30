@@ -185,7 +185,32 @@ bool DatabaseHandler::loadPlants(PlantCollection& collection) {
 		return false;
 	}
 }
-bool DatabaseHandler::savePlant(const Plant& plant) { return false; }
+
+bool DatabaseHandler::savePlant(Plant& plant) {
+	if (!db) return false;
+	try {
+		SQLite::Statement query(*db,
+			"INSERT INTO my_plants (common_name, scientific_name, plant_type_id, last_watered, last_fertilized, pot_size, rootbound, notes, watering_frequency_days_override, fertilizer_frequency_days_override) "
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		query.bind(1, plant.getCommonName());
+		query.bind(2, plant.getScientificName());
+		query.bind(3, plant.getPlantTypeId());
+		query.bind(4, plant.getLastWatered());
+		query.bind(5, plant.getLastFertilized());
+		query.bind(6, plant.getPotSize());
+		query.bind(7, plant.isRootbound() ? 1 : 0);
+		query.bind(8, plant.getNotes());
+		query.bind(9, plant.getWateringFrequencyDaysOverride());
+		query.bind(10, plant.getFertilizerFrequencyDaysOverride());
+		query.exec();
+		plant.setId(static_cast<int>(db->getLastInsertRowid()));
+		return true;
+		return true;
+	} catch (const SQLite::Exception&) {
+		return false;
+	}
+}
+
 bool DatabaseHandler::savePlantType(const PlantType& plantType) { return false; }
 bool DatabaseHandler::updatePlant(const Plant& plant) { return false; }
 bool DatabaseHandler::deletePlant(int id) { return false; }

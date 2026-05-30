@@ -43,8 +43,74 @@ int main() {
             collection.displayAll();
         } else if (choice == 3) {
             // TODO: Get plant details from user
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            string commonName;
+            cout << "Enter the plant's common name: ";
+            getline(cin, commonName);
+
+            string scientificName;
+            cout << "Enter the plant's scientific name: ";
+            getline(cin, scientificName);
+
+            string lastWatered;
+            cout << "Enter the date the plant was last watered (YYYY-MM-DD). If never watered, or you don't know, leave blank: ";
+            getline(cin, lastWatered);
+
+            string lastFertilized;
+            cout << "Enter the date the plant was last fertilized (YYYY-MM-DD). If never fertilized, or you don't know, leave blank: ";
+            getline(cin, lastFertilized);
+
+            string potSize;
+            cout << "Enter the size of the pot the plant is in (Small, Medium, Large). If you don't know, leave blank: ";
+            getline(cin, potSize);
+
+            string rootboundStr;
+            cout << "Is the plant rootbound? (y/n): ";
+            getline(cin, rootboundStr);
+            bool rootbound = (rootboundStr == "y" || rootboundStr == "Y");
+
+            string notes;
+            cout << "Enter any notes about the plant: ";
+            getline(cin, notes);
+
+            Plant* newPlant = new Plant();
+            newPlant->setCommonName(commonName);
+            newPlant->setScientificName(scientificName);
+            newPlant->setLastWatered(lastWatered);
+            newPlant->setLastFertilized(lastFertilized);
+            newPlant->setPotSize(potSize);
+            newPlant->setRootbound(rootbound);
+            newPlant->setNotes(notes);
+
             // TODO: Let user select or create a plant type
+            cout << "\nAvailable plant types:\n";
+            vector<PlantType*> plantTypes = collection.getAllPlantTypes();
+            for (PlantType* pType : plantTypes) {
+                if (pType) {
+                    cout << pType->getId() << ". " << pType->getCommonNames() << " (" << pType->getLatinName() << ")\n";
+                }
+            }
+
+            cout << "Enter plant type ID (0 if unknown): ";
+            string plantTypeIdStr;
+            getline(cin, plantTypeIdStr);
+            int plantTypeId = 0;
+            if (!plantTypeIdStr.empty()) {
+                try {
+                    plantTypeId = stoi(plantTypeIdStr);
+                } catch (const exception& e) {
+                    plantTypeId = 0;
+                }
+            }
+            newPlant->setPlantTypeId(plantTypeId);
+
             // TODO: Create Plant object and save to database
+            if (!db.savePlant(*newPlant)) {
+                cout << "Failed to save plant to database.\n";
+            }
+            collection.addPlant(newPlant);
+            cout << "Plant added.\n";
         } else if (choice == 4) {
             // TODO: Get plant name from user
             // TODO: Find plant in collection

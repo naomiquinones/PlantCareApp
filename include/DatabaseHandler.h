@@ -36,7 +36,7 @@ public:
     bool savePlantType(const PlantType& plantType);
 
     bool loadPlants(PlantCollection& collection);
-    bool savePlant(const Plant& plant);
+    bool savePlant(Plant& plant);
     bool updatePlant(const Plant& plant);
     bool deletePlant(int id);
 
