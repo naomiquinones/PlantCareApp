@@ -36,6 +36,10 @@ int PlantCollection::getPlantTypeCount() const {
     return plantTypes.size();
 }
 
+std::vector<PlantType*> PlantCollection::getAllPlantTypes() const {
+    return plantTypes;
+}
+
 vector<Plant*> PlantCollection::getPlantsNeedingWater() const { return {}; }
 vector<Plant*> PlantCollection::getPlantsNeedingFertilizer() const { return {}; }
 vector<Plant*> PlantCollection::getOverduePlants(int daysThreshold) const { return {}; }
