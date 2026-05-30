@@ -191,6 +191,9 @@ void test_save_plant() {
     assert(handler.loadPlants(collection));
     assert(collection.getCount() == 2);
 
+    assert(collection.findPlantByName("Snake Plant") != nullptr);
+    assert(collection.findPlantByName("Pothos") != nullptr);
+
     remove("test_save.db");
 
 }
