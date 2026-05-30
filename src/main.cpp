@@ -94,11 +94,19 @@ int main() {
 
             int plantTypeId;
             cout << "Enter plant type ID (0 if unknown): ";
-            cin >> plantTypeId;
-            newPlant.setPlantTypeId(plantTypeId);
+            if (!(cin >> plantTypeId)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                plantTypeId = 0;
+            }
+            newPlant->setPlantTypeId(plantTypeId);
 
             // TODO: Create Plant object and save to database
-
+            if (!db.savePlant(*newPlant)) {
+                cout << "Failed to save plant to database.\n";
+            }
+            collection.addPlant(newPlant);
+            cout << "Plant added.\n";
         } else if (choice == 4) {
             // TODO: Get plant name from user
             // TODO: Find plant in collection
