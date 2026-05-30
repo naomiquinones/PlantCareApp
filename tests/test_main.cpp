@@ -125,6 +125,39 @@ void test_database_loading() {
     remove("test_plants.db");
 }
 
+void test_database_missing_file() {
+    cout << "test_database_missing_file\n";
+
+    remove("nonexistent.db");
+
+    DatabaseHandler handler("nonexistent.db");
+    assert(!handler.open());
+    assert(!handler.isOpen());
+}
+
+void test_database_empty_plants() {
+    cout << "test_database_empty_plants\n";
+
+    remove("test_empty.db");
+
+    SQLite::Database setupDb("test_empty.db",
+        SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE);
+
+    setupDb.exec("CREATE TABLE plant_types (id INTEGER PRIMARY KEY, latin_name TEXT, common_names TEXT, family TEXT, category TEXT, origin TEXT, climate TEXT, temp_min_c REAL, temp_max_c REAL, ideal_light TEXT, tolerated_light TEXT, watering TEXT, watering_frequency_days INTEGER, fertilizer_frequency_days INTEGER, fertilizer_instructions TEXT, toxic_to_people INTEGER DEFAULT 0, toxic_to_pets INTEGER DEFAULT 0, diseases TEXT)");
+
+    setupDb.exec("CREATE TABLE my_plants (id INTEGER PRIMARY KEY, common_name TEXT, scientific_name TEXT, plant_type_id INTEGER, last_watered TEXT, last_fertilized TEXT, pot_size TEXT, rootbound INTEGER, notes TEXT, watering_frequency_days_override INTEGER, fertilizer_frequency_days_override INTEGER)");
+
+    PlantCollection collection;
+    DatabaseHandler handler("test_empty.db");
+    assert(handler.open());
+    assert(handler.loadPlantTypes(collection));
+    assert(handler.loadPlants(collection));
+    assert(collection.getCount() == 0);
+    assert(collection.getPlantTypeCount() == 0);
+
+    remove("test_empty.db");
+}
+
 int main() {
     cout << "Running tests...\n\n";
 
@@ -138,6 +171,8 @@ int main() {
     test_empty_collection();
     test_single_plant();
     test_database_loading();
+    test_database_missing_file();
+    test_database_empty_plants();
 
     cout << "\nAll tests completed.\n";
     return 0;
