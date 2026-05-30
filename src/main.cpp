@@ -82,9 +82,21 @@ int main() {
             newPlant.setNotes(notes);
 
             // TODO: Let user select or create a plant type
+            cout << "\nAvailable plant types:\n";
+            vector<PlantType*> plantTypes = collection.getAllPlantTypes();
+            for (PlantType* pType : plantTypes) {
+                if (pType) {
+                    cout << pType->getId() << ". " << pType->getCommonNames() << " (" << pType->getLatinName() << ")\n";
+                }
+            }
 
+            int plantTypeId;
+            cout << "Enter plant type ID (0 if unknown): ";
+            cin >> plantTypeId;
+            newPlant.setPlantTypeId(plantTypeId);
 
             // TODO: Create Plant object and save to database
+
         } else if (choice == 4) {
             // TODO: Get plant name from user
             // TODO: Find plant in collection
