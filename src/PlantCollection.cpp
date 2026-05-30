@@ -12,7 +12,14 @@ void PlantCollection::addPlant(Plant* plant) {
 }
 bool PlantCollection::removePlant(int id) { return false; }
 Plant* PlantCollection::findPlant(int id) const { return nullptr; }
-Plant* PlantCollection::findPlantByName(const string& name) const { return nullptr; }
+Plant* PlantCollection::findPlantByName(const string& name) const {
+    for (Plant* p : plants) {
+        if (p && p->getCommonName() == name) {
+            return p;
+        }
+    }
+    return nullptr;
+}
 void PlantCollection::addPlantType(PlantType* plantType) {
     if (plantType) plantTypes.push_back(plantType);
 }
