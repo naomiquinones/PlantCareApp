@@ -26,3 +26,13 @@
 ## What I'd do differently next time
 
 - Always rebuild with `cmake --build build` before running ctest. Running old compiled code caused tests to appear to pass when the source had errors, which wasted time debugging the wrong thing.
+
+## Fresh-conversation review
+
+- Used ChatGPT in a fresh conversation to review the PR diff.
+- ChatGPT suggested many changes, several of which seemed out of scope for this feature.
+- Asked Claude to evaluate the high-priority fixes ChatGPT identified.
+- Claude agreed that `findPlantByName()` and `findPlant()` should be implemented, and that the test assertions should verify actual plant data, not just counts.
+- Claude disagreed that `open()` needed to be made idempotent, since the spec explicitly defines returning false when already open.
+- Decided to defer `findPlantByName()`, `findPlant()`, and the stronger test assertions to a future feature, since they are not required to make database loading work correctly for this PR.
+- Did not apply the `unique_ptr` refactor or memory leak suggestions, as they are out of scope for this assignment.
