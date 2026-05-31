@@ -106,3 +106,7 @@ made unused by YOUR changes only — don't clean up pre-existing dead code unles
 tasks, state a brief plan with verifiable checkpoints.
 
 I'm not sure I noticed too much difference but it could have been due to my lack of knowledge on how best to use these tools.
+
+## Addendum
+
+I asked Claude to look at one of the initial Kaggle datasets, and it pointed out that the data seemed to be "synthetic ML training data" generated to practice data science, rather than for accurately representing plant care. As examples, it pointed out some plants that the dataset said to water every 3 days, where they really should be watered every 2-3 weeks. Another was listed as needing watering every day when it really should be watered every 1-2 weeks. While this was disheartening, knowing this means that I'll need to do further research to create a more accurate starting database. This also points to a different approach to gathering this data and making the app more useful.
